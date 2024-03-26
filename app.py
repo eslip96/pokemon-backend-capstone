@@ -4,6 +4,7 @@ import psycopg2
 from db import *
 from util.blueprints import register_blueprints
 
+
 app = Flask(__name__)
 
 app_host = os.getenv('APP_HOST')

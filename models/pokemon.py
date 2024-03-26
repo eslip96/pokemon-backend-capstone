@@ -9,7 +9,7 @@ class Pokemon(db.Model):
     __tablename__ = "Pokemons"
 
     pokemon_id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    name = db.Column(db.String(), nullable=False)
+    pokemon_name = db.Column(db.String(), nullable=False)
     type_id = db.Column(UUID(as_uuid=True), db.ForeignKey('Types.type_id'), nullable=False)
     ability_id = db.Column(UUID(as_uuid=True), db.ForeignKey('Abilities.ability_id'), nullable=False)
     description = db.Column(db.String())
