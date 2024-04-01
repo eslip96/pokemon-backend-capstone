@@ -15,9 +15,9 @@ class Pokemon(db.Model):
     description = db.Column(db.String())
     base_stats = db.Column(db.String())
 
-    type = db.relationship("Type", backref="pokemons")
+    type = db.relationship("Type", backref="pokemon_instances")
 
-    def __init__(self, name, type_id, ability_id, description=None, base_stats=None):
+    def __init__(self, name, type_id=None, ability_id=None, description=None, base_stats=None):
         self.name = name
         self.type_id = type_id
         self.ability_id = ability_id
