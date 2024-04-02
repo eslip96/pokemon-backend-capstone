@@ -5,7 +5,7 @@ from models import *
 from util.reflection import populate_object
 
 
-def create_type(req):
+def add_type(req):
     post_data = req.form if req.form else req.json
     new_type = Type.new_type_obj()
     populate_object(new_type, post_data)
