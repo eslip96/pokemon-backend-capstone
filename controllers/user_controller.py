@@ -3,6 +3,7 @@ from db import db
 from lib.authenicate import *
 from models import *
 from util.reflection import populate_object
+from flask_bcrypt import generate_password_hash
 
 
 def add_user(req):
