@@ -12,6 +12,7 @@ class AuthTokens(db.Model):
     auth_token = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     user_id = db.Column(UUID(as_uuid=True), db.ForeignKey("Users.user_id", ondelete="CASCADE"), nullable=False)
     expiration = db.Column(db.DateTime, nullable=False)
+    # role = db.Column(db.String(), nullable=False)
 
     user = db.relationship('Users', back_populates="auth")
 
@@ -23,7 +24,7 @@ class AuthTokens(db.Model):
 class AuthTokenSchema(ma.Schema):
     class Meta:
         fields = ['auth_token', 'user', 'expiration']
-    user = ma.fields.Nested('UsersSchema')
+    user = ma.fields.Nested('UsersSchema', only=['first_name', 'last_name', 'email', 'user_id'])
 
 
 auth_token_schema = AuthTokenSchema()

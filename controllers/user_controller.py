@@ -4,12 +4,14 @@ from lib.authenicate import *
 from models import *
 from util.reflection import populate_object
 from flask_bcrypt import generate_password_hash
+from models.users import Users, user_schema, users_schema
 
 
 def add_user(req):
-    post_data = request.form if request.form else request.json
+    post_data = req.json
     new_user = Users.get_new_user()
     populate_object(new_user, post_data)
+
     if 'password' not in post_data or not isinstance(post_data['password'], str):
         return jsonify({'message': 'password is required thats not numbers and must be in qoutes'}), 400
 

@@ -6,26 +6,25 @@ from db import db
 
 
 class Type(db.Model):
-    __tablename__ = "Types"
+    __tablename__ = "Type"
 
     type_id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    name = db.Column(db.String(), nullable=False)
+    type_name = db.Column(db.String(), nullable=False)
     description = db.Column(db.String())
 
-    pokemons = db.relationship("Pokemon", backref="type")
+    pokemons = db.relationship("Pokemon", back_populates="type")
 
-    def __init__(self, name, description=None):
-        self.name = name
+    def __init__(self, type_name, description):
+        self.type_name = type_name
         self.description = description
 
-    @classmethod
-    def new_type_obj(cls):
-        return cls("")
+    def new_type_obj():
+        return Type("", "")
 
 
 class TypeSchema(ma.Schema):
     class Meta:
-        fields = ['type_id', 'name', 'description']
+        fields = ['type_id', 'type_name', 'description']
 
 
 type_schema = TypeSchema()

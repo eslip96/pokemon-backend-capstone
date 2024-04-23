@@ -1,13 +1,14 @@
 from flask import Blueprint, request, jsonify
 
 import controllers
+# from controllers.user_controller import add_user
 
 
 users = Blueprint('users', __name__)
 
 
 @users.route('/pokemon/user', methods=['POST'])
-def add_user():
+def add_NEW_user():
     return controllers.add_user(request)
 
 
