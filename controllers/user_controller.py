@@ -22,7 +22,7 @@ def add_user(req):
     except:
         db.session.rollback()
         return jsonify({'message': 'unable to create user'}), 400
-    return jsonify({'message': 'user created', 'result': user_schema.dump(new_user)})
+    return jsonify({'message': 'user created', 'result': user_schema.dump(new_user)}), 200
 
 
 @auth
@@ -30,10 +30,13 @@ def get_all_users(req):
     try:
         all_users = db.session.query(Users).all()
 
+        if not all_users:
+            return jsonify({"message": "No users found"}), 404
+
         num_user = users_schema.dump(all_users)
-        return jsonify({"message": 'success', 'results': num_user}), 200
-    except:
-        return jsonify({"message": "unable to pull users"}), 400
+        return jsonify({"message": "Success", "results": num_user}), 200
+    except Exception as e:
+        return jsonify({"message": "Unable to pull users", "error": str(e)}), 400
 
 
 @auth_admin

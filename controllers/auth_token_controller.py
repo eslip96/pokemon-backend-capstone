@@ -34,4 +34,15 @@ def auth_token_add(req):
     db.session.add(new_token)
     db.session.commit()
 
-    return jsonify({'message': 'auth success', 'account authorized': auth_token_schema.dump(new_token)}), 200
+    return jsonify({'message': 'auth success', 'result': auth_token_schema.dump(new_token)}), 200
+
+
+def auth_token_remove(request, auth_token):
+
+    auth_record = AuthTokens.query.get(auth_token)
+    if auth_record:
+        db.session.delete(auth_record)
+        db.session.commit()
+        return jsonify({'message': 'authentication token removed'}), 200
+    else:
+        return jsonify({'message': 'authentication token not found'}), 400

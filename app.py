@@ -1,5 +1,6 @@
 import os
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 import psycopg2
 from db import *
 from util.blueprints import register_blueprints
@@ -21,6 +22,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = f'postgresql://127.0.0.1:5432/{database_
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 init_db(app, db)
+CORS(app)
 
 
 def create_tables():

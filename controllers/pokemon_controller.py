@@ -57,7 +57,7 @@ def update_pokemon(req, pokemon_id):
 @auth
 def get_pokemon_by_id(req, pokemon_id):
     try:
-        pokemon = Pokemon.query.filter_by(pokemon_id=pokemon_id).first()
+        pokemon = Pokemon.query.filter_by(pokemon_id).first()
         if not pokemon:
             return jsonify({"message": "no pokemon in the database with the provided id"}), 404
         return jsonify({"message": "pokemon requested", "result": pokemon_schema.dump(pokemon)}), 200

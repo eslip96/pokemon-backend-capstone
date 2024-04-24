@@ -12,7 +12,7 @@ class AuthTokens(db.Model):
     auth_token = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     user_id = db.Column(UUID(as_uuid=True), db.ForeignKey("Users.user_id", ondelete="CASCADE"), nullable=False)
     expiration = db.Column(db.DateTime, nullable=False)
-    # role = db.Column(db.String(), nullable=False)
+    # role = db.Column(db.String(), nullable=True)
 
     user = db.relationship('Users', back_populates="auth")
 

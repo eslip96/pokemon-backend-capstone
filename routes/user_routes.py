@@ -8,7 +8,7 @@ users = Blueprint('users', __name__)
 
 
 @users.route('/pokemon/user', methods=['POST'])
-def add_NEW_user():
+def add_user():
     return controllers.add_user(request)
 
 
