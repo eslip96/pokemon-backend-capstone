@@ -14,7 +14,6 @@ class Pokemon(db.Model):
     type_id = db.Column(UUID(as_uuid=True), db.ForeignKey('Type.type_id'), nullable=False)
     ability_id = db.Column(UUID(as_uuid=True), db.ForeignKey('Ability.ability_id'), nullable=True)
     description = db.Column(db.String())
-    # base_stats = db.Column(db.String())
 
     type = db.relationship("Type", back_populates="pokemons")
     teams = db.relationship("Team", secondary=team_pokemon_association_table, back_populates="pokemons")
@@ -22,9 +21,8 @@ class Pokemon(db.Model):
     def __init__(self, pokemon_name, type_id, description):
         self.pokemon_name = pokemon_name
         self.type_id = type_id
-        # self.ability_id = ability_id
+
         self.description = description
-        # self.base_stats = base_stats
 
     def new_pokemon_obj():
         return Pokemon("", "", "")

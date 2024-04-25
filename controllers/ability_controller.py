@@ -15,9 +15,9 @@ def add_ability(req):
         db.session.add(new_ability)
         db.session.commit()
         return jsonify({"message": "ability created", "result": ability_schema.dump(new_ability)}), 201
-    except Exception as e:
+    except:
         db.session.rollback()
-        return jsonify({"message": "unable to create ability", "error": str(e)}), 400
+        return jsonify({"message": "unable to create ability"}), 400
 
 
 @auth
@@ -28,8 +28,8 @@ def get_all_abilities(req):
             return jsonify({"message": "no abilities found"}), 404
 
         return jsonify({"message": "current abilities in database", "results": abilities_schema.dump(abilities)}), 200
-    except Exception as e:
-        return jsonify({"message": "failed to retrieve abilities", "error": str(e)}), 400
+    except:
+        return jsonify({"message": "failed to retrieve abilities"}), 400
 
 
 @auth
@@ -39,9 +39,9 @@ def get_ability_by_id(req, ability_id):
         if not ability:
             return jsonify({"message": "ability not found"}), 404
         return jsonify({"message": "ability requested", "result": ability_schema.dump(ability)}), 200
-    except Exception as e:
+    except:
         db.session.rollback()
-        return jsonify({"message": "failed to retrieve ability", "error": str(e)}), 400
+        return jsonify({"message": "failed to retrieve ability"}), 400
 
 
 @auth_admin
@@ -54,9 +54,9 @@ def update_ability(req, ability_id):
         populate_object(ability, post_data)
         db.session.commit()
         return jsonify({"message": "ability updated successfully", "result": ability_schema.dump(ability)}), 200
-    except Exception as e:
+    except:
         db.session.rollback()
-        return jsonify({"message": "unable to update ability", "error": str(e)}), 400
+        return jsonify({"message": "unable to update ability"}), 400
 
 
 @auth_admin
@@ -68,6 +68,6 @@ def delete_ability(req, ability_id):
         db.session.delete(ability)
         db.session.commit()
         return jsonify({"message": "ability deleted successfully"}), 200
-    except Exception as e:
+    except:
         db.session.rollback()
-        return jsonify({"message": "unable to delete ability", "error": str(e)}), 400
+        return jsonify({"message": "unable to delete ability"}), 400

@@ -25,7 +25,7 @@ def add_user(req):
     return jsonify({'message': 'user created', 'result': user_schema.dump(new_user)}), 200
 
 
-@auth
+@auth_admin
 def get_all_users(req):
     try:
         all_users = db.session.query(Users).all()
