@@ -26,8 +26,8 @@ def get_all_pokemon(req):
     try:
         all_pokemon = Pokemon.query.all()
         return jsonify({"pokemon": pokemons_schema.dump(all_pokemon)}), 200
-    except Exception as e:
-        return jsonify({"message": "unable to fetch Pokemon", "error": str(e)}), 400
+    except:
+        return jsonify({"message": "unable to fetch Pokemon"}), 400
 
 
 @auth_admin
@@ -49,9 +49,9 @@ def update_pokemon(req, pokemon_id):
         db.session.commit()
 
         return jsonify({"message": "pokemon updated successfully", "pokemon": pokemon_schema.dump(pokemon)}), 200
-    except Exception as e:
+    except:
         db.session.rollback()
-        return jsonify({"message": "unable to update Pokemon", "error": str(e)}), 400
+        return jsonify({"message": "unable to update Pokemon"}), 400
 
 
 @auth
@@ -61,8 +61,8 @@ def get_pokemon_by_id(req, pokemon_id):
         if not pokemon:
             return jsonify({"message": "no pokemon in the database with the provided id"}), 404
         return jsonify({"message": "pokemon requested", "result": pokemon_schema.dump(pokemon)}), 200
-    except Exception as e:
-        return jsonify({"message": "failed to retrieve pokemon", "error": str(e)}), 400
+    except:
+        return jsonify({"message": "failed to retrieve pokemon"}), 400
 
 
 @auth_admin
@@ -80,8 +80,6 @@ def delete_pokemon(req, pokemon_id):
         db.session.commit()
 
         return jsonify({"message": "pokemon and any associated data have been deleted", "deleted pokemon": deleted_pokemon}), 200
-    except Exception as e:
-
-        print(e)
+    except:
         db.session.rollback()
-        return jsonify({"message": "failed to delete pokemon", "error": str(e)}), 400
+        return jsonify({"message": "failed to delete pokemon"}), 400
