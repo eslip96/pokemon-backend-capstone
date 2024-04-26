@@ -22,7 +22,12 @@ def update_team(team_id):
 
 @team.route('/team/<team_id>', methods=['GET'])
 def get_team_by_id(team_id):
-    return controllers.get_team_by_id(team_id)
+    return controllers.get_team_by_id(request, team_id)
+
+
+@team.route('/team/pokemon/<team_id>', methods=['PUT'])
+def add_pokemon_to_team(team_id):
+    return controllers.add_pokemon_to_team(request, team_id)
 
 
 @team.route('/team/delete/<team_id>', methods=['DELETE'])

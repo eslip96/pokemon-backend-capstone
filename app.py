@@ -8,8 +8,8 @@ from util.blueprints import register_blueprints
 
 app = Flask(__name__)
 
-app_host = os.getenv('APP_HOST')
-app_port = os.getenv('APP_PORT')
+app_host = os.environ.get('APP_HOST')
+app_port = os.environ.get('APP_PORT')
 
 
 database_scheme = os.environ.get("DATABASE_SCHEME")
@@ -18,7 +18,9 @@ database_address = os.environ.get("DATABASE_ADDRESS")
 database_port = os.environ.get("DATABASE_PORT")
 database_name = os.environ.get("DATABASE_NAME")
 
-app.config["SQLALCHEMY_DATABASE_URI"] = f'postgresql://127.0.0.1:5432/{database_name}'
+
+app.config["SQLALCHEMY_DATABASE_URI"] = f'{database_scheme}://{database_address}:{database_port}/{database_name}'
+
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 init_db(app, db)

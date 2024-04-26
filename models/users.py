@@ -14,7 +14,7 @@ class Users(db.Model):
     password = db.Column(db.String(), nullable=False)
     role = db.Column(db.String(), nullable=False)
 
-    auth = db.relationship('AuthTokens', back_populates='user', cascade='all,delete')
+    auth = db.relationship('AuthTokens', back_populates='user', cascade='all')
 
     def __init__(self, first_name, last_name, email, password, role):
         self.first_name = first_name
@@ -29,7 +29,7 @@ class Users(db.Model):
 
 class UsersSchema(ma.Schema):
     class Meta:
-        fields = ['user_id', 'first_name', 'last_name', 'email', 'role']
+        fields = ['user_id', 'first_name', 'last_name', 'email', 'role', 'type', 'team']
 
 
 user_schema = UsersSchema()

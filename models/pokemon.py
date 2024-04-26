@@ -15,7 +15,7 @@ class Pokemon(db.Model):
     ability_id = db.Column(UUID(as_uuid=True), db.ForeignKey('Ability.ability_id'), nullable=True)
     description = db.Column(db.String())
 
-    type = db.relationship("Type", back_populates="pokemons")
+    type = db.relationship("Type", back_populates="pokemons", cascade='all')
     teams = db.relationship("Team", secondary=team_pokemon_association_table, back_populates="pokemons")
 
     def __init__(self, pokemon_name, type_id, description):
@@ -30,9 +30,9 @@ class Pokemon(db.Model):
 
 class PokemonSchema(ma.Schema):
     class Meta:
-        fields = ['pokemon_id', 'pokemon_name', 'type_id', 'description']
+        fields = ['pokemon_id', 'pokemon_name', 'type_id', 'description', 'ability_id', 'team_ids']
 
-    type = ma.fields.Nested("TypeSchema", only=['type_id', 'name'])
+    type = ma.fields.Nested("TypeSchema", only=['type_id', 'type_name'])
     teams = ma.fields.Nested("TeamsSchema", many=True, exclude=['pokemons'])
 
 

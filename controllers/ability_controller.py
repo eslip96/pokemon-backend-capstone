@@ -3,6 +3,8 @@ from db import db
 from lib.authenicate import *
 from models import *
 from util.reflection import populate_object
+from models.ability import Ability, abilities_schema, ability_schema
+from models.pokemon import Pokemon, pokemon_schema, pokemons_schema
 
 
 @auth_admin
@@ -35,7 +37,7 @@ def get_all_abilities(req):
 @auth
 def get_ability_by_id(req, ability_id):
     try:
-        ability = Ability.query.get(ability_id)
+        ability = Ability.query.filter_by(ability_id=ability_id).first()
         if not ability:
             return jsonify({"message": "ability not found"}), 404
         return jsonify({"message": "ability requested", "result": ability_schema.dump(ability)}), 200
@@ -65,6 +67,12 @@ def delete_ability(req, ability_id):
         ability = Ability.query.get(ability_id)
         if not ability:
             return jsonify({"message": "ability not found"}), 404
+
+        ability_pokemon = Pokemon.query.filter_by(ability_id=ability_id).all()
+
+        for pokemon in ability_pokemon:
+            pokemon.ability_id = None
+
         db.session.delete(ability)
         db.session.commit()
         return jsonify({"message": "ability deleted successfully"}), 200

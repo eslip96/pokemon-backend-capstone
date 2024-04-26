@@ -20,6 +20,11 @@ def update_pokemon(pokemon_id):
     return controllers.update_pokemon(request, pokemon_id)
 
 
+@pokemon.route('/pokemon/ability/<pokemon_id>', methods=['PUT'])
+def add_ability_to_pokemon(pokemon_id):
+    return controllers.add_ability_to_pokemon(request, pokemon_id)
+
+
 @pokemon.route('/pokemon/<pokemon_id>', methods=['GET'])
 def get_pokemon_by_id(pokemon_id):
     return controllers.get_pokemon_by_id(request, pokemon_id)

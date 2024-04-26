@@ -31,12 +31,45 @@ def get_all_users(req):
         all_users = db.session.query(Users).all()
 
         if not all_users:
-            return jsonify({"message": "No users found"}), 404
+            return jsonify({"message": "no users found"}), 404
 
         num_user = users_schema.dump(all_users)
-        return jsonify({"message": "Success", "results": num_user}), 200
-    except Exception as e:
-        return jsonify({"message": "Unable to pull users", "error": str(e)}), 400
+        return jsonify({"message": "success", "results": num_user}), 200
+    except:
+        return jsonify({"message": "unable to pull users"}), 400
+
+
+@auth_admin
+def update_user(req, user_id):
+    try:
+        user = Users.query.get(user_id)
+        if not user:
+            return jsonify({"message": "user not found"}), 404
+
+        data = req.form if req.form else req.json
+
+        if 'password' in data:
+            data['password'] = generate_password_hash(data['password']).decode('utf8')
+
+        populate_object(user, data)
+        db.session.commit()
+
+        return jsonify({"message": "user updated successfully", "user": user_schema.dump(user)}), 200
+    except:
+        db.session.rollback()
+        return jsonify({"message": f"unable to update user"}), 400
+
+
+@auth_admin
+def get_user_by_id(request, user_id):
+    try:
+        user = Users.query.filter_by(user_id=user_id).first()
+        if not user:
+            return jsonify({"message": "user not found"}), 404
+        return jsonify({"message": "user requested", "result": user_schema.dump(user)}), 200
+    except:
+        db.session.rollback()
+        return ({"message": "failed to retrieve user"}), 400
 
 
 @auth_admin

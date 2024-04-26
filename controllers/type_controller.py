@@ -3,6 +3,7 @@ from db import db
 from lib.authenicate import *
 from models import *
 from util.reflection import populate_object
+from models.type import Type, types_schema, type_schema
 
 
 @auth_admin
@@ -31,7 +32,7 @@ def get_all_types(req):
 @auth
 def get_type_by_id(req, type_id):
     try:
-        type = Type.query.get(type_id)
+        type = Type.query.filter_by(type_id=type_id).first()
         if not type:
             return jsonify({"message": "type not found"}), 404
         return jsonify({"message": "type requested", "result": type_schema.dump(type)}), 200
@@ -42,7 +43,7 @@ def get_type_by_id(req, type_id):
 
 @auth_admin
 def update_type(req, type_id):
-    post_data: req.form if req.form else req.json
+    post_data = req.form if req.form else req.json
     try:
         type = Type.query.get(type_id)
         if not type:
@@ -63,6 +64,9 @@ def delete_type(req, type_id):
         type = Type.query.get(type_id)
         if not type:
             return jsonify({"message": "type not found"}), 404
+
+        for pokemon in type.pokemons:
+            db.session.delete(pokemon)
 
         db.session.delete(type)
         db.session.commit()
